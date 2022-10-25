@@ -1,5 +1,52 @@
 <template>
-  <bouncy-loader :loading="true" :config="config" />
+  <div class="demo-page">
+    <section class="controls">
+      <h1>🧶 bouncy-loader demo</h1>
+      <label>🐖 Size (1 to 100, higher is bigger)</label>
+      <input
+        type="range"
+        min="1"
+        max="100"
+        v-model="config.size"
+        @change="forceRefresh"
+      /><br />
+
+      <label>🎈 Bounciness (1 to 100, higher is bigger bouncing effect)</label>
+      <input
+        type="range"
+        min="1"
+        max="100"
+        v-model="config.bounciness"
+        @change="forceRefresh"
+      /><br />
+
+      <label>🏎 Speed (1 to 100, higher is slower animation)</label>
+      <input
+        type="range"
+        min="1"
+        max="100"
+        v-model="config.speed"
+        @change="forceRefresh"
+      /><br />
+
+      <label>🌈 Rainbow mode (switch color on bounce)</label>
+      <input type="checkbox" v-model="config.rainbow" @change="forceRefresh" />
+      <span>{{ config.rainbow }}</span>
+      <br /><br />
+
+      <a @click="reset" href="#">Reset</a><br /><br />
+
+      <span>
+        Check out the
+        <a href="https://github.com/3drenders/bouncy">readme</a>
+        for more options
+      </span>
+    </section>
+
+    <section class="bouncy-loader">
+      <bouncy-loader :loading="true" :config="config" :key="key" />
+    </section>
+  </div>
 </template>
 
 <script lang="ts">
@@ -68,7 +115,35 @@ export default class App extends Vue {
     size: 10, // default size
     bounciness: 10, // default bounciness
     speed: 10, // default speed
-    rainbow: true, // rainbow mode: the ball switches color on each bounce
+    rainbow: false, // rainbow mode: the ball switches color on each bounce
+  };
+
+  key = 0;
+
+  forceRefresh = () => {
+    this.key++;
+  };
+
+  reset = () => {
+    this.config.size = 10; // default size
+    this.config.bounciness = 10; // default bounciness
+    this.config.speed = 10; // default speed
+    this.config.rainbow = false; // rainbow mode: the ball switches color on each bounce
+    this.forceRefresh();
   };
 }
 </script>
+
+<style css scoped>
+.demo-page {
+  display: flex;
+  flex-direction: row;
+}
+.controls {
+  width: 400px;
+  margin-right: 100px;
+}
+label {
+  display: block;
+}
+</style>
