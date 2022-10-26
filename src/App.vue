@@ -34,7 +34,7 @@
       <span>{{ config.rainbow }}</span>
       <br /><br />
 
-      <a @click="reset" href="#">Reset</a><br /><br />
+      <a @click="resetSettings" href="#">Reset</a><br /><br />
 
       <span>
         Check out the
@@ -44,94 +44,52 @@
     </section>
 
     <section class="bouncy-loader">
-      <bouncy-loader :loading="true" :config="config" :key="key" />
+      <bouncy-loader
+        :loading="true"
+        :config="config"
+        :colors="colors"
+        :key="key"
+      />
     </section>
   </div>
 </template>
 
-<script lang="ts">
-import { Options, Vue } from "vue-class-component";
+<script lang="ts" setup>
 import bouncyLoader from "./components/bouncy-loader.vue";
 
-@Options({
-  components: {
-    bouncyLoader,
-  },
-})
-export default class App extends Vue {
-  config = {
-    colors: [
-      "#FF6633",
-      "#FFB399",
-      "#FF33FF",
-      "#FFFF99",
-      "#00B3E6",
-      "#E6B333",
-      "#3366E6",
-      "#999966",
-      "#99FF99",
-      "#B34D4D",
-      "#80B300",
-      "#809900",
-      "#E6B3B3",
-      "#6680B3",
-      "#66991A",
-      "#FF99E6",
-      "#CCFF1A",
-      "#FF1A66",
-      "#E6331A",
-      "#33FFCC",
-      "#66994D",
-      "#B366CC",
-      "#4D8000",
-      "#B33300",
-      "#CC80CC",
-      "#66664D",
-      "#991AFF",
-      "#E666FF",
-      "#4DB3FF",
-      "#1AB399",
-      "#E666B3",
-      "#33991A",
-      "#CC9999",
-      "#B3B31A",
-      "#00E680",
-      "#4D8066",
-      "#809980",
-      "#E6FF80",
-      "#1AFF33",
-      "#999933",
-      "#FF3380",
-      "#CCCC00",
-      "#66E64D",
-      "#4D80CC",
-      "#9900B3",
-      "#E64D66",
-      "#4DB380",
-      "#FF4D4D",
-      "#99E6E6",
-      "#6666FF",
-    ], // Array of colors to use, formatted as HEX codes
-    size: 10, // default size
-    bounciness: 10, // default bounciness
-    speed: 10, // default speed
-    rainbow: false, // rainbow mode: the ball switches color on each bounce
-  };
+const colors = [
+  "#FF6633",
+  "#FFB399",
+  "#FF33FF",
+  "#FFFF99",
+  "#00B3E6",
+  "#E6B333",
+]; // Array of colors to be used, formatted as HEX codes
 
-  key = 0;
+const config = {
+  size: 10, // default size: when set to 10, the object is 100px by 100px
+  bounciness: 10, // default bounciness
+  speed: 10, // default speed: 500ms or 0.5 seconds
+  rainbow: false, // rainbow mode: when true the ball switches color on each bounce
+};
 
-  forceRefresh = () => {
-    this.key++;
-  };
+// For demo purposes, we include a reset function based on the :key property.
+// Since out timing events are based on CSS animation triggers, we need to full restart the animation
+// when values change
+let key = 0;
 
-  reset = () => {
-    this.config.size = 10; // default size
-    this.config.bounciness = 10; // default bounciness
-    this.config.speed = 10; // default speed
-    this.config.rainbow = false; // rainbow mode: the ball switches color on each bounce
-    this.forceRefresh();
-  };
-}
+const forceRefresh = () => {
+  key++;
+};
+
+// Resets the settings for the demo page
+const resetSettings = () => {
+  config.size = 10; // default size
+  config.bounciness = 10; // default bounciness
+  config.speed = 10; // default speed
+  config.rainbow = false; // rainbow mode: the ball switches color on each bounce
+  forceRefresh();
+};
 </script>
 
 <style css scoped>

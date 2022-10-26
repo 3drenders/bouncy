@@ -4,15 +4,43 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, defineProps, onMounted, ref } from "vue";
-import BouncyConfig from "./IBouncyConfig";
+import { computed, onMounted, defineProps, ref } from "vue";
 
-const props = defineProps<{
-  loading: boolean;
-  config: BouncyConfig;
-}>();
+export interface BouncyConfig {
+  size: number;
+  bounciness: number;
+  speed: number;
+  rainbow: boolean;
+}
 
-let color = ref(props.config.colors[0]);
+const props = defineProps({
+  loading: {
+    required: true,
+    type: Boolean,
+    default: true,
+  },
+  colors: {
+    required: true,
+    type: Array,
+    default() {
+      return ["ffffff"];
+    },
+  },
+  config: {
+    required: false,
+    type: Object,
+    default() {
+      return {
+        size: 10,
+        bounciness: 10,
+        speed: 10,
+        rainbow: false,
+      };
+    },
+  },
+});
+
+let color = ref(props.colors[0]);
 const bouncy = ref<HTMLInputElement | null>(null);
 
 const styleMapper = computed(() => {
@@ -25,7 +53,7 @@ const styleMapper = computed(() => {
 });
 
 const newRainbowColor = () => {
-  const colorsWithoutCurrentColor = props.config.colors.filter(
+  const colorsWithoutCurrentColor = props.colors.filter(
     (e) => e !== color.value
   );
 
