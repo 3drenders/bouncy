@@ -4,6 +4,9 @@ _a bouncy ball loading animation_
 
 ![Bouncy demo gif](demo/demo.gif)
 
+### Live demo
+[Try it out @ codesandbox.io](https://codesandbox.io/p/github/3drenders/bouncy/bouncy?file=%2FREADME.md)
+
 ### How to use
 The project is currently _only build for Vue3 applications_. In order to use it, create a new file called bouncy-loader.vue in the components folder. Fill it with the following files contents: 
 ```
