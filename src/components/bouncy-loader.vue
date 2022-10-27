@@ -6,14 +6,6 @@
 <script setup lang="ts">
 import { computed, onMounted, onBeforeUnmount, ref, CSSProperties } from "vue";
 
-// Interface for all the config options of bouncy
-export interface BouncyConfig {
-  size: number;
-  bounciness: number;
-  speed: number;
-  rainbow: boolean;
-}
-
 // Settings props and their default values
 const props = defineProps({
   loading: {

@@ -9,12 +9,12 @@
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src"
   },
   "dependencies": {
-    "@vitejs/plugin-vue": "^1.6.1",
-    "vite": "^2.5.4",
-    "vue": "^3.2.13",
-    "vue-class-component": "^8.0.0-0"
+   
+    "vue": "^3.2.13"
   },
   "devDependencies": {
+    "@vitejs/plugin-vue": "^1.6.1",
+    "vite": "^2.5.4",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "@vue/eslint-config-typescript": "^9.1.0",
