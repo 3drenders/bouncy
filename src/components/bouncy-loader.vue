@@ -4,7 +4,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, onMounted, defineProps, ref } from "vue";
+import { computed, onMounted, defineProps, ref, CSSProperties } from "vue";
 
 export interface BouncyConfig {
   size: number;
@@ -40,10 +40,10 @@ const props = defineProps({
   },
 });
 
-let color = ref(props.colors[0]);
+let color = ref<string>(props.colors[0]);
 const bouncy = ref<HTMLInputElement | null>(null);
 
-const styleMapper = computed(() => {
+const styleMapper = computed((): CSSProperties => {
   return {
     "--color": color.value,
     "--size": props.config.size,

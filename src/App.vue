@@ -55,15 +55,17 @@
 </template>
 
 <script lang="ts" setup>
+import { ref } from "vue";
 import bouncyLoader from "./components/bouncy-loader.vue";
 
 const colors = [
-  "#FF6633",
-  "#FFB399",
-  "#FF33FF",
-  "#FFFF99",
-  "#00B3E6",
-  "#E6B333",
+  "#ff0000 ",
+  "#ffa500",
+  "#ffff00",
+  "#008000",
+  "#0000ff",
+  "#4b0082",
+  "#ee82ee",
 ]; // Array of colors to be used, formatted as HEX codes
 
 const config = {
@@ -76,10 +78,10 @@ const config = {
 // For demo purposes, we include a reset function based on the :key property.
 // Since out timing events are based on CSS animation triggers, we need to full restart the animation
 // when values change
-let key = 0;
+let key = ref(0);
 
 const forceRefresh = () => {
-  key++;
+  key.value++;
 };
 
 // Resets the settings for the demo page
