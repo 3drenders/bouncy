@@ -1,5 +1,5 @@
 <template>
-  <div id="bouncy-container">
+  <div id="bouncy-container" v-if="loading">
     <div id="bouncy" :style="styleMapper" ref="bouncy"></div>
   </div>
 </template>
