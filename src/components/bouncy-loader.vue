@@ -4,14 +4,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import {
-  computed,
-  onMounted,
-  defineProps,
-  ref,
-  CSSProperties,
-  onBeforeUnmount,
-} from "vue";
+import { computed, onMounted, onBeforeUnmount, ref, CSSProperties } from "vue";
 
 // Interface for all the config options of bouncy
 export interface BouncyConfig {
