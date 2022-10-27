@@ -4,8 +4,16 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, onMounted, defineProps, ref, CSSProperties } from "vue";
+import {
+  computed,
+  onMounted,
+  defineProps,
+  ref,
+  CSSProperties,
+  onBeforeUnmount,
+} from "vue";
 
+// Interface for all the config options of bouncy
 export interface BouncyConfig {
   size: number;
   bounciness: number;
@@ -13,6 +21,7 @@ export interface BouncyConfig {
   rainbow: boolean;
 }
 
+// Settings props and their default values
 const props = defineProps({
   loading: {
     required: true,
@@ -23,7 +32,7 @@ const props = defineProps({
     required: true,
     type: Array,
     default() {
-      return ["ffffff"];
+      return ["ff0000"];
     },
   },
   config: {
@@ -40,9 +49,14 @@ const props = defineProps({
   },
 });
 
+// color, the currently visible color. Defaults to first value in colors array
 let color = ref<string>(props.colors[0]);
+// bouncy, ref to actual HTML element
 const bouncy = ref<HTMLInputElement | null>(null);
+// loopCounter, for tracking the loops when in rainbow mode
+let loopCounter = ref(0);
 
+// Maps the config and color to CSS properties so that the bouncy is updated via CSS variables
 const styleMapper = computed((): CSSProperties => {
   return {
     "--color": color.value,
@@ -52,6 +66,29 @@ const styleMapper = computed((): CSSProperties => {
   };
 });
 
+// onMounted, we check for rainbow mode, if so, start listening to the event.
+// It counts the loop and every other loop, we change the color, since the up and down animation are 2 different parts
+onMounted(() => {
+  if (props.config.rainbow) {
+    bouncy.value?.addEventListener("animationiteration", loop);
+  }
+});
+
+// Event listener cleanup on unmount
+onBeforeUnmount(() => {
+  bouncy.value?.removeEventListener("animationiteration", loop);
+});
+
+// Helper function for checking if the animation is fully complete (each 2 loops, since the ball goes up and down)
+const loop = () => {
+  if (loopCounter.value % 2 == 0) {
+    newRainbowColor();
+  }
+  loopCounter.value++;
+};
+
+// Helper function for picking the next color in rainbow mode. Creates an array with all the color values, except the current one
+// and then randomly picks a color.
 const newRainbowColor = () => {
   const colorsWithoutCurrentColor = props.colors.filter(
     (e) => e !== color.value
@@ -62,19 +99,6 @@ const newRainbowColor = () => {
       Math.floor(Math.random() * colorsWithoutCurrentColor.length)
     ];
 };
-
-onMounted(() => {
-  if (props.config.rainbow) {
-    let loopCounter = 0;
-
-    bouncy.value?.addEventListener("animationiteration", () => {
-      if (loopCounter % 2 == 0) {
-        newRainbowColor();
-      }
-      loopCounter++;
-    });
-  }
-});
 </script>
 
 <style scoped lang="css">
@@ -84,12 +108,13 @@ onMounted(() => {
 }
 
 #bouncy {
+  /* Mapping the CSS variables to get the width and size */
   width: calc(10px * var(--size));
   height: calc(10px * var(--size));
   border-radius: 50%;
   background-color: var(--color);
 
-  /* Load animation */
+  /* Load animation, with variable speed */
   animation: bounce calc(50ms * var(--speed));
   animation-direction: alternate;
   animation-timing-function: cubic-bezier(0.5, 0.05, 1, 0.5);
@@ -103,6 +128,7 @@ onMounted(() => {
   -webkit-animation-iteration-count: infinite;
 }
 
+/* Bounce animation keyframes */
 @keyframes bounce {
   from {
     transform: translate3d(0, 0, 0);
@@ -112,6 +138,7 @@ onMounted(() => {
   }
 }
 
+/* Backup animation for webkit support */
 @-webkit-keyframes bounce {
   from {
     -webkit-transform: translate3d(0, 0, 0);
