@@ -1,7 +1,19 @@
 {
-  "name": "bouncy",
-  "version": "0.1.0",
-  "private": true,
+  "name": "bouncy-loader",
+  "version": "1.0.0",
+  "description": "A bouncy ball loader animation",
+  "license": "MIT",
+  "repository": "https://github.com/3drenders/bouncy",
+  "author": {
+    "name": "3DRenders"
+  },
+  "keywords": [
+    "loading",
+    "loader",
+    "animation",
+    "ball",
+    "spinner"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -9,7 +21,6 @@
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src"
   },
   "dependencies": {
-   
     "vue": "^3.2.13"
   },
   "devDependencies": {
